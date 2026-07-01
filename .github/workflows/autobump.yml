@@ -1,0 +1,75 @@
+# Auto-bump the gmacFTP cask when a new release is published in GMAC-pl/gmacFTP.
+# Runs entirely on GitHub; nothing runs locally. No PAT required: it uses this
+# tap repo's own GITHUB_TOKEN to read the (public) gmacFTP releases and push
+# the cask update back here.
+#
+# Also runnable manually from the Actions tab ("Run workflow") to bump right
+# after publishing a release instead of waiting for the schedule.
+#
+# Note: GitHub disables scheduled workflows on repos with no activity for 60
+# days. If gmacFTP hasn't released in a while, re-run manually (or push any
+# commit) to wake it.
+name: autobump
+
+on:
+  schedule:
+    # Every 6 hours, off the :00 mark. Checks GMAC-pl/gmacFTP for a newer tag.
+    - cron: "23 */6 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: autobump
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bump cask if a newer gmacFTP release exists
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          CASK=Casks/gmacftp.rb
+
+          cur="$(awk -F'"' '/^  version /{print $2; exit}' "$CASK")"
+          echo "Cask version: $cur"
+
+          tag="$(gh api repos/GMAC-pl/gmacFTP/releases/latest --jq '.tag_name')"
+          latest="${tag#v}"
+          echo "Latest GitHub release: $latest"
+
+          if [ -z "$latest" ]; then
+            echo "No latest release found; nothing to do."
+            exit 0
+          fi
+          if [ "$latest" = "$cur" ]; then
+            echo "Already up to date ($cur)."
+            exit 0
+          fi
+
+          url="https://github.com/GMAC-pl/gmacFTP/releases/download/v${latest}/gmacFTP-${latest}.dmg"
+          echo "Downloading $url"
+          sha="$(curl -fsSL "$url" | sha256sum | awk '{print $1}')"
+          if [ -z "$sha" ]; then
+            echo "Download/checksum failed — NOT bumping (release asset may be missing)."
+            exit 1
+          fi
+          echo "sha256: $sha"
+
+          sed -i -E "s/^  version \".*\"/  version \"$latest\"/" "$CASK"
+          sed -i -E "s/^  sha256 \".*\"/  sha256 \"$sha\"/" "$CASK"
+
+          echo "==> diff"
+          git --no-pager diff -- "$CASK"
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "autobump: gmacFTP $latest"
+          git push
+          echo "Bumped to $latest."

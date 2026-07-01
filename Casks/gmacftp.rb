@@ -19,7 +19,7 @@ cask "gmacftp" do
 
   zap trash: [
     "~/Library/Application Support/mackftp/client",
-    "~/Library/Saved Application State/app.mackftp.client.savedState",
     "~/Library/Mobile Documents/com~apple~CloudDocs/gmacFTP",
+    "~/Library/Saved Application State/app.mackftp.client.savedState",
   ]
 end

@@ -2,8 +2,7 @@ cask "gmacftp" do
   version "0.0.18"
   sha256 "8c6aeb2eafe1c62236dbf13baa061035de99972647be9c751edd28f8999fa352"
 
-  url "https://github.com/GMAC-pl/gmacFTP/releases/download/v#{version}/gmacFTP-#{version}.dmg",
-      verified: "github.com/GMAC-pl/gmacFTP/"
+  url "https://github.com/GMAC-pl/gmacFTP/releases/download/v#{version}/gmacFTP-#{version}.dmg"
   name "gmacFTP"
   desc "Dual-pane FTP/FTPS/SFTP client"
   homepage "https://github.com/GMAC-pl/gmacFTP"

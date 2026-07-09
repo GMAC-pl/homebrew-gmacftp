@@ -1,6 +1,6 @@
 cask "gmacftp" do
-  version "0.0.17"
-  sha256 "d3d4ba232d90f4aa34059c562a39497f680433d2df797614efad9d5943795ca8"
+  version "0.0.18"
+  sha256 "8c6aeb2eafe1c62236dbf13baa061035de99972647be9c751edd28f8999fa352"
 
   url "https://github.com/GMAC-pl/gmacFTP/releases/download/v#{version}/gmacFTP-#{version}.dmg",
       verified: "github.com/GMAC-pl/gmacFTP/"

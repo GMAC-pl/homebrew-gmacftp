@@ -1,10 +1,10 @@
 cask "gmacftp" do
-  version "0.0.18"
-  sha256 "8c6aeb2eafe1c62236dbf13baa061035de99972647be9c751edd28f8999fa352"
+  version "0.0.19"
+  sha256 "a804fbc9b9be3f228c8eaa1d017df03375f6e16486a387549433468fd0be7e79"
 
   url "https://github.com/GMAC-pl/gmacFTP/releases/download/v#{version}/gmacFTP-#{version}.dmg"
   name "gmacFTP"
-  desc "Dual-pane FTP/FTPS/SFTP client"
+  desc "Native dual-pane FTP/FTPS/SFTP client written in Rust"
   homepage "https://github.com/GMAC-pl/gmacFTP"
 
   livecheck do

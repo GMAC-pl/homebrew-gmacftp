@@ -14,10 +14,7 @@ This installs the same signed + Apple-notarized `gmacFTP.app` that's published o
 [GitHub releases page](https://github.com/GMAC-pl/gmacFTP/releases). Updates:
 `brew upgrade --cask gmacftp` (or `brew upgrade --greedy`).
 
-> A pull request to add gmacFTP to Homebrew's official `homebrew/cask` tap is open
-> ([Homebrew/homebrew-cask#272665](https://github.com/Homebrew/homebrew-cask/pull/272665)).
-> Once it's merged, the bare `brew install --cask gmacftp` will work and this tap becomes
-> optional. Until then, use the fully-qualified command above.
+Use the fully qualified command above so Homebrew selects this tap explicitly.
 
 ## Project
 

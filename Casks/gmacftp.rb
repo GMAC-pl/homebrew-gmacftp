@@ -1,6 +1,6 @@
 cask "gmacftp" do
-  version "0.2.1"
-  sha256 "195941faa8cef89cbb9dfd336f651e3e72f1fa8aa125b72a5ab63221469a40c1"
+  version "0.2.2"
+  sha256 "1a50e18efc58520941b57b292ba6b7539ecba5743eeb10200a045d4181557925"
 
   url "https://github.com/GMAC-pl/gmacFTP/releases/download/v#{version}/gmacFTP-#{version}.dmg"
   name "gmacFTP"
@@ -12,6 +12,7 @@ cask "gmacftp" do
     strategy :github_latest
   end
 
+  depends_on arch: :arm64
   depends_on macos: :big_sur
 
   app "gmacFTP.app"
